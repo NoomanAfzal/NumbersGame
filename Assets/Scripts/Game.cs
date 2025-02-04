@@ -344,77 +344,55 @@ private void HoldTouch(Vector2 pos)
 
             if (num >= 0 && num < this.cellSizeX && num2 >= 0 && num2 < this.cellSizeY && this.dots[num][num2] != null)
             {
-                // Check if the touched dot is already in the chain
-                bool isInChain = false;
-                int touchedIndex = -1;
-                for (int i = 0; i < this.linkLines.Count; i++)
+                // Check if the dot is already in ANY part of the chain
+                bool alreadyInChain = false;
+                foreach (Line line in this.linkLines)
                 {
-                    if (this.dots[num][num2].transform == this.linkLines[i].linkDots[0])
+                    foreach (RectTransform existingDot in line.linkDots)
                     {
-                        isInChain = true;
-                        touchedIndex = i;
-                        break;
+                        if (this.dots[num][num2].transform == existingDot)
+                        {
+                            alreadyInChain = true;
+                            break;
+                        }
                     }
+                    if (alreadyInChain) break;
                 }
 
-                if (isInChain)
+                // Only add the dot if it's not already in the chain
+                if (!alreadyInChain && 
+                    this.dots[num][num2].transform != this.linkLines[this.linkLines.Count - 1].linkDots[0] && 
+                    (this.dots[num][num2].numberLevel == this.nowLinkLv || 
+                     this.dots[num][num2].numberLevel == this.maxLinkLv))
                 {
-                    // If the touched dot is not the last one, remove all lines/dots after it
-                    if (touchedIndex < this.linkLines.Count - 1)
+                    Dot component = this.linkLines[this.linkLines.Count - 1].linkDots[0].GetComponent<Dot>();
+                    bool flag = false;
+                    for (int j = -1; j <= 1; j++)
                     {
-                        // Remove all lines after the touched index
-                        for (int i = this.linkLines.Count - 1; i > touchedIndex; i--)
+                        for (int k = -1; k <= 1; k++)
                         {
-                            this.linkLines[i].Clear(false);
-                            this.linkLines.RemoveAt(i);
+                            int num3 = (int)component.mPos.x + j;
+                            int num4 = (int)component.mPos.y + k;
+
+                            if (num == num3 && num2 == num4)
+                            {
+                                flag = true;
+                                break;
+                            }
                         }
-
-                        // Update level variables based on the new last dot
-                        this.nowLinkLv = this.linkLines[this.linkLines.Count - 1].numberLevel;
+                    }
+                    if (flag)
+                    {
+                        this.dots[num][num2].PlayWave(0f);
+                        this.linkLines[this.linkLines.Count - 1].linkDots.Add(this.dots[num][num2].transform as RectTransform);
+                        Line line = this.NewLine(this.dots[num][num2]);
+                        this.linkLines.Add(line);
+                        this.nowLinkLv = line.numberLevel;
                         this.maxLinkLv = this.nowLinkLv + 1;
-
-                        // Play sound effect for deselection
                         AudioSystem.playEffect("p" + (this.linkLines.Count % 14 + 1).ToString());
                     }
                 }
-                else
-                {
-                    // Add new dot if valid
-                    if (this.dots[num][num2].transform != this.linkLines[this.linkLines.Count - 1].linkDots[0] &&
-                        (this.dots[num][num2].numberLevel == this.nowLinkLv || 
-                         this.dots[num][num2].numberLevel == this.maxLinkLv))
-                    {
-                        Dot component = this.linkLines[this.linkLines.Count - 1].linkDots[0].GetComponent<Dot>();
-                        bool isAdjacent = false;
-                        for (int j = -1; j <= 1; j++)
-                        {
-                            for (int k = -1; k <= 1; k++)
-                            {
-                                int checkX = (int)component.mPos.x + j;
-                                int checkY = (int)component.mPos.y + k;
-
-                                if (num == checkX && num2 == checkY)
-                                {
-                                    isAdjacent = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (isAdjacent)
-                        {
-                            this.dots[num][num2].PlayWave(0f);
-                            this.linkLines[this.linkLines.Count - 1].linkDots.Add(this.dots[num][num2].transform as RectTransform);
-                            Line newLine = this.NewLine(this.dots[num][num2]);
-                            this.linkLines.Add(newLine);
-                            this.nowLinkLv = newLine.numberLevel;
-                            this.maxLinkLv = this.nowLinkLv + 1;
-                            AudioSystem.playEffect("p" + (this.linkLines.Count % 14 + 1).ToString());
-                        }
-                    }
-                }
             }
-            // Update the target position for the current line
             this.linkLines[this.linkLines.Count - 1].targetPos = pos;
         }
     }
