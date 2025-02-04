@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: c018e29735be4e40812b98afb6c03d96
+timeCreated: 1564065305
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: "font"
+  fontNames:
+  - Cambria Math
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName: 
+  assetBundleVariant: 
