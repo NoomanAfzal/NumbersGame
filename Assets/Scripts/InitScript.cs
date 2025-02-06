@@ -1,6 +1,5 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: InitScript
 using System;
-using com.vector;
 using UnityEngine;
 
 public class InitScript
@@ -15,20 +14,18 @@ public class InitScript
 		Input.multiTouchEnabled = false;
 		Application.targetFrameRate = 60;
 		UIManager.UpdateRandomState(-1);
-		Storage.Init("vectorAlwaysLoveU");
-		Localization.Init();
 		AudioSystem.Init();
-		GameUser.ReadFromLocal();
+		//GameUser.ReadFromLocal();
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			InitScript.isLoginGameCenter = true;
 		}
-		else if (Application.platform == RuntimePlatform.Android)
+		/*else if (Application.platform == RuntimePlatform.Android)
 		{
 			InitScript.isLoginGameCenter = false;
 			string msg = "nlhexa_noads";
 			VectorNative.invokeNative(100, msg);
-		}
+		}*/
 	}
 
 	public static int version = 2;

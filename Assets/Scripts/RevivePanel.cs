@@ -1,9 +1,7 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: RevivePanel
 using System;
-using com.vector;
 using UnityEngine;
 using UnityEngine.UI;
-using GoogleMobileAds.Api;
 public class RevivePanel : BasePanel
 {
 	protected new void Start()
@@ -60,7 +58,8 @@ public class RevivePanel : BasePanel
 
 	public void OnRevive()
 	{
-		GoogleAdMobController.instance.ShowRewardedAd(Reward);
+		// Noman you commented this line of adsss
+		//GoogleAdMobController.instance.ShowRewardedAd(Reward);
         //if (GameUser.Instance.isNoAds)
         //{
         //	this.isInVideo = true;
@@ -92,12 +91,13 @@ public class RevivePanel : BasePanel
         //	UIManager.selfInstance.VAinstance.ResetNgsCount();
         //}
     }
-	public void Reward(Reward reward)
+	// Noman you commented this line of adsss
+	/*public void Reward(Reward reward)
 	{
         UIManager.selfInstance.gamePanel.GameRevive();
 		ClosePanel();
 
-    }
+    }*/
 
 	  private void ClosePanel()
     {
@@ -119,8 +119,6 @@ public class RevivePanel : BasePanel
 					base.gameObject.SetActive(false);
 					UIManager.selfInstance.gamePanel.GameRevive();
 				});
-				VectorAdsInstance vainstance = UIManager.selfInstance.VAinstance;
-				vainstance.mCallBack = (VectorAdsInstance.InvokeAdsCallback)Delegate.Remove(vainstance.mCallBack, new VectorAdsInstance.InvokeAdsCallback(this.InvokeAdsCallback));
 			}
 		}
 		else
@@ -133,8 +131,6 @@ public class RevivePanel : BasePanel
 					UIManager.selfInstance.gamePanel.GameRevive();
 				});
 			}
-			VectorAdsInstance vainstance2 = UIManager.selfInstance.VAinstance;
-			vainstance2.mCallBack = (VectorAdsInstance.InvokeAdsCallback)Delegate.Remove(vainstance2.mCallBack, new VectorAdsInstance.InvokeAdsCallback(this.InvokeAdsCallback));
 		}
 	}
 

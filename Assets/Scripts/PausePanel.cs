@@ -1,6 +1,5 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: PausePanel
 using System;
-using com.vector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,14 +36,7 @@ public class PausePanel : BasePanel
         //}
         soundOn.SetActive(AudioSystem.isSound);
         soundOff.SetActive(!AudioSystem.isSound);
-        if (Localization.getCurFlag() == "China")
-		{
-			this.imgNoAds.sprite = UIManager.selfInstance.settingPanel.cnNoAds;
-		}
-		else
-		{
-			this.imgNoAds.sprite = UIManager.selfInstance.settingPanel.enNoAds;
-		}
+        
 		UIManager.selfInstance.topPanel.SwitchThemeBtn(true);
 		KeyBoardListener kbl = UIManager.selfInstance.kbl;
 		kbl.onBackKeyEvent = (KeyBoardListener.OnBackKeyEvent)Delegate.Combine(kbl.onBackKeyEvent, new KeyBoardListener.OnBackKeyEvent(this.OnBackKeyEvent));
@@ -64,7 +56,7 @@ public class PausePanel : BasePanel
 
 	public void AfterAnimIn()
 	{
-		UIManager.selfInstance.VAinstance.ShowNGS(false);
+		
 	}
 
 	public void OnBack()
@@ -166,8 +158,6 @@ public class PausePanel : BasePanel
 		}
 		AudioSystem.PlayOneShotEffect("btn");
 		UIManager.selfInstance.noAdsThisTime = true;
-		VectorAds.invokeAds(109, "pause_noads");
-		VectorNative.invokeNative(112, "nlhexa_noads");
 	}
 
     public void OnSoundSwitch(bool isOpen)

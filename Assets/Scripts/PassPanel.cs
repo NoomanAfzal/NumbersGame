@@ -1,7 +1,6 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: PassPanel
 using System;
 using System.Collections;
-using com.vector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,14 +21,14 @@ public class PassPanel : BasePanel
 			long bestRecord = instance.bestRecord;
 			if (targetScore > bestRecord)
 			{
-				this.labTitle.text = Localization.getLocalString(this.praises[UnityEngine.Random.Range(0, 3)], "AWESOME!");
+				//this.labTitle.text = Localization.getLocalString(this.praises[UnityEngine.Random.Range(0, 3)], "AWESOME!");
 				instance.bestRecord = targetScore;
 				this.labBest.gameObject.SetActive(false);
 			}
 			else
 			{
-				this.labTitle.text = Localization.getLocalString(this.praises[3], "AWESOME!");
-				this.labBest.text = Localization.getLocalString("txtBest", "Best") + ":" + bestRecord.ToString("N0");
+				//this.labTitle.text = Localization.getLocalString(this.praises[3], "AWESOME!");
+				//this.labBest.text = Localization.getLocalString("txtBest", "Best") + ":" + bestRecord.ToString("N0");
 				this.labBest.gameObject.SetActive(true);
 			}
 			this.isEnd = true;
@@ -40,8 +39,8 @@ public class PassPanel : BasePanel
 			if (Application.platform == RuntimePlatform.IPhonePlayer)
 			{
 				text = "nlhexa_leaderboard";
-			}
-			if (InitScript.isLoginGameCenter)
+			} 
+			/*if (InitScript.isLoginGameCenter)
 			{
 				VectorNative.invokeNative(102, string.Concat(new object[]
 				{
@@ -51,8 +50,8 @@ public class PassPanel : BasePanel
 					GameUser.Instance.bestRecord,
 					"}"
 				}));
-			}
-			VectorAds.invokeAds(114, "{\"event\":\"pass\",\"num\":" + GameUser.Instance.bestRecord + "}");
+			}*/
+			//VectorAds.invokeAds(114, "{\"event\":\"pass\",\"num\":" + GameUser.Instance.bestRecord + "}");
 			base.StopCoroutine("GrowTime");
 			base.StartCoroutine("GrowTime");
 		}
@@ -64,10 +63,10 @@ public class PassPanel : BasePanel
 			this.labNow.text = targetScore.ToString("N0");
 			this.AdOrRate();
 		}
-		if (Localization.getCurFlag() == "China")
+		/*if (Localization.getCurFlag() == "China")
 		{
 			this.imgNoAds.sprite = UIManager.selfInstance.settingPanel.cnNoAds;
-		}
+		}*/
 		else
 		{
 			this.imgNoAds.sprite = UIManager.selfInstance.settingPanel.enNoAds;
@@ -127,7 +126,7 @@ public class PassPanel : BasePanel
 		}
 		else
 		{
-			UIManager.selfInstance.VAinstance.ShowNGS(false);
+			//UIManager.selfInstance.VAinstance.ShowNGS(false);
 		}
 	}
 
@@ -148,7 +147,7 @@ public class PassPanel : BasePanel
 			return;
 		}
 		AudioSystem.PlayOneShotEffect("btn");
-		VectorNative.invokeNative(104, string.Empty);
+	//	VectorNative.invokeNative(104, string.Empty);
 	}
 
 	public void OnShare()
@@ -159,7 +158,7 @@ public class PassPanel : BasePanel
 		}
 		AudioSystem.PlayOneShotEffect("btn");
 		string text = utils.GetWritablePath(string.Empty) + "/share.png";
-		VectorNative.invokeNative(107, string.Concat(new string[]
+		/*VectorNative.invokeNative(107, string.Concat(new string[]
 		{
 			"{    \"text\": \"",
 			Localization.getLocalString("txtShareContent", string.Empty),
@@ -168,7 +167,7 @@ public class PassPanel : BasePanel
 			"\",    \"imgPath\": \"",
 			text,
 			"\"}"
-		}));
+		}));*/
 	}
 
 	public void OnRank()
@@ -178,9 +177,9 @@ public class PassPanel : BasePanel
 			return;
 		}
 		AudioSystem.PlayOneShotEffect("btn");
-		if (!InitScript.isLoginGameCenter)
+		/*if (!InitScript.isLoginGameCenter)
 		{
-			VectorNative.invokeNative(128, string.Empty);
+			//VectorNative.invokeNative(128, string.Empty);
 			InitScript.isLoginGameCenter = true;
 		}
 		if (InitScript.isLoginGameCenter)
@@ -211,7 +210,7 @@ public class PassPanel : BasePanel
 				UIManager.selfInstance.VAinstance.adData.rankScope.ToString(),
 				"}"
 			}));
-		}
+		}*/
 	}
 
 	public void OnRemoveAds()
@@ -222,8 +221,7 @@ public class PassPanel : BasePanel
 		}
 		AudioSystem.PlayOneShotEffect("btn");
 		UIManager.selfInstance.noAdsThisTime = true;
-		VectorAds.invokeAds(109, "pass_noads");
-		VectorNative.invokeNative(112, "nlhexa_noads");
+		
 	}
 
 	public void OnGoOn()

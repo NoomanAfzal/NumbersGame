@@ -1,6 +1,5 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: MenuPanel
 using System;
-using com.vector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,7 +75,7 @@ public class MenuPanel : BasePanel
 
 	private void OnBackKeyEvent()
 	{
-		if (!this.alreadyShowNgs && UIManager.selfInstance.VAinstance.adData.busyAd && VectorAds.invokeAds(104, string.Empty) == "true")
+		/*if (!this.alreadyShowNgs && UIManager.selfInstance.VAinstance.adData.busyAd && VectorAds.invokeAds(104, string.Empty) == "true")
 		{
 			this.alreadyShowNgs = true;
 			if (!UIManager.selfInstance.VAinstance.ShowNGS(true))
@@ -95,7 +94,7 @@ public class MenuPanel : BasePanel
 			{
 				VectorAds.invokeAds(115, string.Empty);
 			}
-		}
+		}*/
 	}
 
 	public void OnStart()
@@ -148,15 +147,15 @@ public void ThemeClick(){
 				this.RequestLocalNotice();
 			}
 		}
-		else if (UIManager.selfInstance.prePanel != null && UIManager.selfInstance.VAinstance.adData.busyAd)
+		/*else if (UIManager.selfInstance.prePanel != null && UIManager.selfInstance.VAinstance.adData.busyAd)
 		{
 			UIManager.selfInstance.VAinstance.ShowNGS(false);
-		}
+		}*/
 	}
 
 	public void RequestLocalNotice()
 	{
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		/*if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			VectorNativeInstance vninstance = UIManager.selfInstance.VNinstance;
 			vninstance.mCallBack = (VectorNativeInstance.InvokeNativeCallback)Delegate.Combine(vninstance.mCallBack, new VectorNativeInstance.InvokeNativeCallback(this.OnRequestLocalNotice));
@@ -165,7 +164,7 @@ public void ThemeClick(){
 		else
 		{
 			this.AddNotification();
-		}
+		}*/
 	}
 
     private void AddNotification()
@@ -178,14 +177,14 @@ public void ThemeClick(){
 			"txtNotification1",
 			"txtNotification2"
 		};
-		VectorNative.invokeNative(123, string.Concat(new object[]
+		/*VectorNative.invokeNative(123, string.Concat(new object[]
 		{
 			"{\"key\":\"2248hexa_daily\", \"content\":\"",
 			Localization.getLocalString(array[UnityEngine.Random.Range(0, array.Length)], "Let's play 2248 Hexa!"),
 			"\", \"isRepeat\":true, \"delayTim\":",
 			num,
 			", \"badgeNum\":1}"
-		}));
+		}));*/
 		Storage.WriteConfig("refusenotification", "false");
 	}
 
@@ -201,8 +200,8 @@ public void ThemeClick(){
 			{
 				Storage.WriteConfig("refusenotification", "true");
 			}
-			VectorNativeInstance vninstance = UIManager.selfInstance.VNinstance;
-			vninstance.mCallBack = (VectorNativeInstance.InvokeNativeCallback)Delegate.Remove(vninstance.mCallBack, new VectorNativeInstance.InvokeNativeCallback(this.OnRequestLocalNotice));
+			//VectorNativeInstance vninstance = UIManager.selfInstance.VNinstance;
+			//vninstance.mCallBack = (VectorNativeInstance.InvokeNativeCallback)Delegate.Remove(vninstance.mCallBack, new VectorNativeInstance.InvokeNativeCallback(this.OnRequestLocalNotice));
 		}
 	}
 

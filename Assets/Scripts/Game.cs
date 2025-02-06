@@ -118,7 +118,10 @@ public class Game : MonoBehaviour
                     }
                     else
                     {
-                        int num5 = this.cellSizeY - 1 + (this.cellSizeX - 5) + UIManager.selfInstance.VAinstance.adData.gameExtraLevel;
+                        //noman you commented this line of adsss
+                        //noman you commented this line due to add ... added new one
+                        //int num5 = this.cellSizeY - 1 + (this.cellSizeX - 5) + UIManager.selfInstance.VAinstance.adData.gameExtraLevel;
+                        int num5 = this.cellSizeY - 1 + (this.cellSizeX - 5); // new one
                         num5 = ((num5 > 3) ? num5 : 3);
                         int num6 = UnityEngine.Random.Range(0, (this.nowMaxLv <= num5) ? this.nowMaxLv : num5);
                         if (firstFill && instance.lastGames.Count > i * this.cellSizeY + j)
@@ -126,7 +129,7 @@ public class Game : MonoBehaviour
                             num6 = instance.lastGames[i * this.cellSizeY + j];
                             this.nowMaxLv = ((this.nowMaxLv >= num6) ? this.nowMaxLv : num6);
                         }
-                        this.dots[i][j] = this.NewDot(num6, i, j, ((i % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)i * this.cellWidth, this.cellHeight * (float)(this.cellSizeY + num2)));
+                        this.dots[i][j] = this.NewDot(num6, i, j, ((i % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)i * this.cellWidth, this.cellHeight * (float)(this.cellSizeY + num2)),true);
                         num2++;
                     }
                     this.dots[i][j].UpdatePos((float)num3 * 0.1f, null, false);
@@ -168,7 +171,7 @@ public class Game : MonoBehaviour
             num2++;
             for (int i = num2; i > num2 - 2; i--)
             {
-                this.dots[num][i] = this.NewDot(0, num, i, ((num % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)num * this.cellWidth, (float)i * this.cellHeight));
+                this.dots[num][i] = this.NewDot(0, num, i, ((num % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)num * this.cellWidth, (float)i * this.cellHeight),true);
                 this.guideDot.Add(this.dots[num][i]);
             }
         }
@@ -183,7 +186,7 @@ public class Game : MonoBehaviour
                 int num4 = num3 - 1;
                 num4 = ((num4 > 0) ? num4 : 0);
                 int num5 = num2;
-                this.dots[j][num5] = this.NewDot(num4, j, num5, ((j % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)j * this.cellWidth, (float)num5 * this.cellHeight));
+                this.dots[j][num5] = this.NewDot(num4, j, num5, ((j % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)j * this.cellWidth, (float)num5 * this.cellHeight),true);
                 this.guideDot.Add(this.dots[j][num5]);
                 j++;
                 num3++;
@@ -195,7 +198,7 @@ public class Game : MonoBehaviour
             num = ((this.cellSizeX >= 6) ? 1 : 0);
             for (int k = num; k < num + 4; k++)
             {
-                this.dots[k][num2] = this.NewDot(0, k, num2, ((k % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)k * this.cellWidth, (float)num2 * this.cellHeight));
+                this.dots[k][num2] = this.NewDot(0, k, num2, ((k % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)k * this.cellWidth, (float)num2 * this.cellHeight),true);
                 this.guideDot.Add(this.dots[k][num2]);
             }
         }
@@ -209,7 +212,7 @@ public class Game : MonoBehaviour
             {
                 int num7 = num6 - 2;
                 num7 = ((num7 > 0) ? num7 : 0);
-                this.dots[l][num2] = this.NewDot(num7, l, num2, ((l % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)l * this.cellWidth, (float)num2 * this.cellHeight));
+                this.dots[l][num2] = this.NewDot(num7, l, num2, ((l % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + new Vector2((float)l * this.cellWidth, (float)num2 * this.cellHeight),true);
                 this.guideDot.Insert(0, this.dots[l][num2]);
                 l--;
                 num6--;
@@ -217,30 +220,53 @@ public class Game : MonoBehaviour
         }
     }
 
-    private Dot NewDot(int numberLevel, int x, int y, Vector2 startPos)
+    private Dot NewDot(int numberLevel, int x, int y, Vector2 startPos, bool state)
     {
         Dot dot;
-        if (this.cacheDots.Count <= 0)
+
+        if (state)
         {
-            GameObject gameObject = UnityEngine.Object.Instantiate(Resources.Load("prefabs/dot")) as GameObject;
-            dot = gameObject.GetComponent<Dot>();
+            if (this.cacheDots.Count <= 0)
+            {
+                GameObject gameObject = UnityEngine.Object.Instantiate(Resources.Load("prefabs/dot")) as GameObject;
+                dot = gameObject.GetComponent<Dot>();
+            }
+            else
+            {
+                dot = this.cacheDots.Dequeue();
+            }
+            dot.UpdateNumLevel(numberLevel);
+            dot.transform.SetParent(this.dotsParent);
+            (dot.transform as RectTransform).anchoredPosition3D = Vector3.zero;
+            dot.transform.localScale = Vector3.one;
+            dot.mPos.x = (float)x;
+            dot.mPos.y = (float)y;
+            (dot.transform as RectTransform).anchoredPosition = startPos;
+            dot.UpdatePos(0f, null, false);
+            dot.gameObject.SetActive(true);
+           
         }
         else
         {
-            dot = this.cacheDots.Dequeue();
+            if (this.cacheDots.Count <= 0)
+            {
+                GameObject gameObject = UnityEngine.Object.Instantiate(Resources.Load("prefabs/dot")) as GameObject;
+                dot = gameObject.GetComponent<Dot>();
+            }
+            else
+            {
+                dot = this.cacheDots.Dequeue();
+            }
+            dot.UpdateNumLevel(numberLevel);
+            dot.transform.SetParent(this.dotsParent);
+            
+            (dot.transform as RectTransform).anchoredPosition3D = new Vector3((float)x, 0f, 0f);
+            dot.transform.localScale = Vector3.one;
+           
+            dot.gameObject.SetActive(true);
         }
-        dot.UpdateNumLevel(numberLevel);
-        dot.transform.SetParent(this.dotsParent);
-        (dot.transform as RectTransform).anchoredPosition3D = Vector3.zero;
-        dot.transform.localScale = Vector3.one;
-        dot.mPos.x = (float)x;
-        dot.mPos.y = (float)y;
-        (dot.transform as RectTransform).anchoredPosition = startPos;
-        dot.UpdatePos(0f, null, false);
-        dot.gameObject.SetActive(true);
         return dot;
     }
-
     private Line NewLine(Dot lDot)
     {
         Line line;
@@ -490,10 +516,11 @@ private void HoldTouch(Vector2 pos)
                     
                     Debug.Log("nomans new numbersssssss");
                     // noman you can add the finish logic here 
-                    if (this.nowMaxLv >= UIManager.selfInstance.VAinstance.adData.gameAdLevel)
+                    //noman you commented this line of adsss
+                    /*if (this.nowMaxLv >= UIManager.selfInstance.VAinstance.adData.gameAdLevel)
                     {
                         UIManager.selfInstance.gamePanel.DelayNgs(0.36f);
-                    }
+                    }*/
                 }
                 if (!this.isGuide)
                 {
@@ -595,14 +622,12 @@ private void HoldTouch(Vector2 pos)
     private void ShowMergeResult(int numberLevel)
     {
         // Create a new dot at the top of the screen
-        Vector2 topScreenPosition = new Vector2(0f, 0f); // Adjust Y position as needed
-        Dot mergeResultDot = this.NewDot(numberLevel, 0, 0, topScreenPosition);
-
-        // Optionally, scale it up for emphasis
-        mergeResultDot.transform.localScale = Vector3.one * .5f;
+        Vector2 topScreenPosition = new Vector3(0f, Screen.height / 2f - 100f); // Adjust Y position as needed
+        Dot mergeResultDot = this.NewDot(numberLevel, 0, 0, topScreenPosition,false);
+        
 
         // Destroy the merge result dot after a short delay
-        Destroy(mergeResultDot.gameObject, 1.5f); // Adjust delay as needed
+        Destroy(mergeResultDot.gameObject, 10f); // Adjust delay as needed
     }
     public void ClearTipStatus()
     {
@@ -729,13 +754,13 @@ private void HoldTouch(Vector2 pos)
                             }
                             if (this.undoDotTarget != null)
                             {
-                                this.dots[i][j] = this.NewDot(simpleDot.numberLevel, i, j, ((i % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + this.undoDotTarget.mPos * this.cellWidth);
+                                this.dots[i][j] = this.NewDot(simpleDot.numberLevel, i, j, ((i % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + this.undoDotTarget.mPos * this.cellWidth,true);
                                 this.dots[i][j].LowSiblingIndex();
                                 this.dots[i][j].UpdatePos(num, null, false);
                             }
                             else
                             {
-                                this.dots[i][j] = this.NewDot(simpleDot.numberLevel, i, j, ((i % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + simpleDot.mPos * this.cellWidth);
+                                this.dots[i][j] = this.NewDot(simpleDot.numberLevel, i, j, ((i % 2 != 0) ? this.zeroEvenPos : this.zeroOddPos) + simpleDot.mPos * this.cellWidth,true);
                                 this.dots[i][j].PlayBornScale(num);
                             }
                         }

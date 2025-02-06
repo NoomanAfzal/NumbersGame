@@ -8,11 +8,7 @@ public class GameUser
 {
 	public void CheckCompatible()
 	{
-		if (this.version != InitScript.version)
-		{
-			this.version = InitScript.version;
-			GameUser.Save();
-		}
+		GameUser.Save();
 	}
 
 	public static GameUser Instance
@@ -88,8 +84,6 @@ public class GameUser
 	public bool forceTheme;
 
 	public bool forceChristmas;
-
-	public int version = InitScript.version;
 
 	public List<int> lastGames = new List<int>();
 

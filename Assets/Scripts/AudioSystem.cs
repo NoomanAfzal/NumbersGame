@@ -7,6 +7,7 @@ public sealed class AudioSystem
 {
 	private AudioSystem()
 	{
+		
 	}
 
 	public static void Init()

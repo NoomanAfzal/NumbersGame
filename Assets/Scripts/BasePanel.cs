@@ -22,8 +22,7 @@ public abstract class BasePanel : MonoBehaviour
 		Text[] componentsInChildren = base.GetComponentsInChildren<Text>();
 		foreach (Text text in componentsInChildren)
 		{
-			string localString = Localization.getLocalString(text.name, text.text);
-			text.text = localString.Replace("\\n", "\n").ToString();
+		
 		}
 	}
 

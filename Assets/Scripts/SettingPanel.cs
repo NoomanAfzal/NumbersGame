@@ -1,7 +1,6 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: SettingPanel
 using System;
 using System.Collections;
-using com.vector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,14 +67,7 @@ public class SettingPanel : BasePanel
 	protected new void OnEnable()
 	{
 		base.OnEnable();
-		if (Localization.getCurFlag() == "China")
-		{
-			this.imgNoAds.sprite = this.cnNoAds;
-		}
-		else
-		{
-			this.imgNoAds.sprite = this.enNoAds;
-		}
+		
 		UIManager.selfInstance.topPanel.SwitchThemeBtn(true);
 		KeyBoardListener kbl = UIManager.selfInstance.kbl;
 		kbl.onBackKeyEvent = (KeyBoardListener.OnBackKeyEvent)Delegate.Combine(kbl.onBackKeyEvent, new KeyBoardListener.OnBackKeyEvent(this.OnBackKeyEvent));
@@ -95,10 +87,7 @@ public class SettingPanel : BasePanel
 
 	public void OnAnimInAfter()
 	{
-		if (UIManager.selfInstance.VAinstance.adData.busyAd)
-		{
-			UIManager.selfInstance.VAinstance.ShowNGS(false);
-		}
+		
 	}
 
 	public void OnClose()
@@ -148,7 +137,6 @@ public class SettingPanel : BasePanel
 		{
 			//this.notfiOnGo.SetActive(false);  noman commeneted this line
 			//this.notfiOffGo.SetActive(true); noman commeneted this line
-			VectorNative.invokeNative(124, "2248hexa_daily");
 			Storage.WriteConfig("refusenotification", "true");
 		}
 	}
@@ -160,7 +148,6 @@ public class SettingPanel : BasePanel
 			return;
 		}
 		AudioSystem.PlayOneShotEffect("btn");
-		VectorNative.invokeNative(106, string.Empty);
 	}
 
 	public void OnFbLike()
@@ -246,7 +233,7 @@ public class SettingPanel : BasePanel
 			return;
 		}
 		AudioSystem.PlayOneShotEffect("btn");
-		VectorNative.invokeNative(104, string.Empty);
+	
 	}
 
 	public void OnRemoveAds()
@@ -257,8 +244,7 @@ public class SettingPanel : BasePanel
 		}
 		AudioSystem.PlayOneShotEffect("btn");
 		UIManager.selfInstance.noAdsThisTime = true;
-		VectorAds.invokeAds(109, "setting_noads");
-		VectorNative.invokeNative(112, "nlhexa_noads");
+		
 	}
 
 	public void OnRestore()
@@ -268,7 +254,6 @@ public class SettingPanel : BasePanel
 			return;
 		}
 		AudioSystem.PlayOneShotEffect("btn");
-		VectorNative.invokeNative(113, string.Empty);
 	}
 
 

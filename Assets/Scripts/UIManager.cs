@@ -1,6 +1,5 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: UIManager
 using System;
-using com.vector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,22 +10,17 @@ public class UIManager : MonoBehaviour
 	private void Awake()
 	{
 		InitScript.InitAll();
-		this.VNinstance = UnityEngine.Object.FindObjectOfType<VectorNativeInstance>();
-		this.VAinstance = UnityEngine.Object.FindObjectOfType<VectorAdsInstance>();
 		this.kbl = UnityEngine.Object.FindObjectOfType<KeyBoardListener>();
 		this.canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
 		UIManager.selfInstance = this;
 		if (AudioSystem.isSound)
 		{
 		}
-		if (!GameUser.Instance.isNoAds)
-		{
-			VectorAds.invokeAds(101, string.Empty);
-		}
 	}
 	public void Showinterstitial()
 	{
-		GoogleAdMobController.instance.ShowInterstitialAd();
+		//noman you commented this line of adsss
+		//GoogleAdMobController.instance.ShowInterstitialAd();
 	}
 	private void OnDestory()
 	{
@@ -76,7 +70,7 @@ public class UIManager : MonoBehaviour
 
 	private void OnApplicationPause(bool pauseStatus)
 	{
-		if (!pauseStatus)
+		/*if (!pauseStatus)
 		{
 			if (this.VAinstance.adData.busyAd && this.firstNgsTime <= 0f && !this.noAdsThisTime)
 			{
@@ -84,7 +78,8 @@ public class UIManager : MonoBehaviour
 			}
 			this.noAdsThisTime = false;
 			this.firstNgsTime = 0f;
-		}
+		}*/
+		//noman you commented this line
 	}
 
 	private void Update()
@@ -126,12 +121,7 @@ public class UIManager : MonoBehaviour
 
 	[HideInInspector]
 	public KeyBoardListener kbl;
-
-	[HideInInspector]
-	public VectorNativeInstance VNinstance;
-
-	[HideInInspector]
-	public VectorAdsInstance VAinstance;
+	
 
 	internal BasePanel curMainPanel;
 

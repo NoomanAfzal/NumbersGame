@@ -1,8 +1,6 @@
 // dnSpy decompiler from Assembly-CSharp.dll class: TopPanel
 using System;
-using com.vector;
 using UnityEngine;
-using GoogleMobileAds.Api;
 public class TopPanel : BasePanel
 {
 	protected new void Start()
@@ -21,14 +19,16 @@ public class TopPanel : BasePanel
 	
     public void ShowRewardedvideo()
     {
-        GoogleAdMobController.instance.ShowRewardedAd(OnRandomReward);
+	    //noman you commented this line of adsss
+//        GoogleAdMobController.instance.ShowRewardedAd(OnRandomReward);
+
 		
     }
 	public void SetGameScriptToTrue()
 	{
 		game.enabled = true;
 	}
-	public void OnRandomReward(Reward reward)
+	/*public void OnRandomReward(Reward reward)
 	{
 		
 		game.enabled = false;
@@ -59,7 +59,7 @@ public class TopPanel : BasePanel
 		Base._instance.UpdateCount();
 
 
-	}
+	}*/
 	public void IAPhint()
 	{
 		RewardScriptableObject.instance.tipLightCount += 5;
@@ -139,7 +139,6 @@ public class TopPanel : BasePanel
 		}
 		instance.forceTheme = true;
 		UIManager.selfInstance.menuPanel.SwitchSpTheme();
-		VectorAds.invokeAds(109, "theme" + instance.nowTheme.ToString());
 		GameUser.Save();
 		if (!UIManager.selfInstance.revivePanel.gameObject.activeSelf)
 		{
@@ -151,16 +150,12 @@ public class TopPanel : BasePanel
 
 	internal void DelayNgs(float delayTim)
 	{
-		if (UIManager.selfInstance.VAinstance.adData.busyAd)
-		{
-			base.CancelInvoke("InvokeAds");
-			base.Invoke("InvokeAds", delayTim);
-		}
+		
 	}
 
 	private void InvokeAds()
 	{
-		UIManager.selfInstance.VAinstance.ShowNGS(false);
+		
 	}
 
 	private new void Update()

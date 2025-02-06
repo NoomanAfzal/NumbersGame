@@ -43,11 +43,11 @@ public class Base : MonoBehaviour
         StartCoroutine(CheckAvailableRoutine());
     }
 
-    private static AndroidJavaObject getCurrentActivity()
+    /*private static AndroidJavaObject getCurrentActivity()
     {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         return jc.GetStatic<AndroidJavaObject>("currentActivity");
-    }
+    }*/
 
 
     #region RewardAds
@@ -89,18 +89,18 @@ public class Base : MonoBehaviour
 
     #region Inters
     // Config time tren Unity Dashboard, default = 40s
-    private static bool IsInterReady()
+    /*private static bool IsInterReady()
     {
         return (DateTime.Now - lastAdsTime).TotalSeconds > RemoteSettings.GetInt("AdCountTime", 60) && !PlayerPrefs.HasKey("removeAds");
-    }
+    }*/
 
-    public static void ShowInters()
+    /*public static void ShowInters()
     {
         if (IsInterReady())
         {
             //Advertisement.Show();
         }
-    }
+    }*/
     #endregion
 
     #region Modify_2248_Ads

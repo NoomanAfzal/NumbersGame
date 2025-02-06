@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.IO;
-using com.vector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -95,12 +94,13 @@ public class GamePanel : BasePanel
 
 	private void UpdateTipStatus1()
 	{
-        Base._instance.removeCount.text = RewardScriptableObject.instance.tipRemoveCount.ToString();
+		//noman you commented this line of adsss
+        /*Base._instance.removeCount.text = RewardScriptableObject.instance.tipRemoveCount.ToString();
         Base._instance.ligtCount.text = RewardScriptableObject.instance.tipLightCount.ToString();
         Base._instance.undoCount.text = RewardScriptableObject.instance.tipUndoCount.ToString();
         Base._instance.removeCount.color = Color.black;
         Base._instance.ligtCount.color = Color.black;
-        Base._instance.undoCount.color = Color.black;
+        Base._instance.undoCount.color = Color.black;*/
         this.tipImg.gameObject.SetActive(false);
         this.lightGo.SetActive(true);
         this.removeGo.SetActive(true);
@@ -169,7 +169,7 @@ public class GamePanel : BasePanel
 
 	private void InvokeAds()
 	{
-		UIManager.selfInstance.VAinstance.ShowNGS(false);
+		//UIManager.selfInstance.VAinstance.ShowNGS(false);
 	}
 
 	internal void UpdateGuideHand(bool isShow, Vector2 newPos = default(Vector2))
@@ -292,8 +292,8 @@ public class GamePanel : BasePanel
 			if (type == 0)
 			{
 				this.UpdateTipStatus1();
-				VectorAdsInstance vainstance = UIManager.selfInstance.VAinstance;
-				vainstance.mCallBack = (VectorAdsInstance.InvokeAdsCallback)Delegate.Remove(vainstance.mCallBack, new VectorAdsInstance.InvokeAdsCallback(this.InvokeAdsCallback));
+				//VectorAdsInstance vainstance = UIManager.selfInstance.VAinstance;
+				//vainstance.mCallBack = (VectorAdsInstance.InvokeAdsCallback)Delegate.Remove(vainstance.mCallBack, new VectorAdsInstance.InvokeAdsCallback(this.InvokeAdsCallback));
 			}
 		}
 		else
@@ -302,8 +302,8 @@ public class GamePanel : BasePanel
 			{
 				this.UpdateTipStatus1();
 			}
-			VectorAdsInstance vainstance2 = UIManager.selfInstance.VAinstance;
-			vainstance2.mCallBack = (VectorAdsInstance.InvokeAdsCallback)Delegate.Remove(vainstance2.mCallBack, new VectorAdsInstance.InvokeAdsCallback(this.InvokeAdsCallback));
+			//VectorAdsInstance vainstance2 = UIManager.selfInstance.VAinstance;
+			//vainstance2.mCallBack = (VectorAdsInstance.InvokeAdsCallback)Delegate.Remove(vainstance2.mCallBack, new VectorAdsInstance.InvokeAdsCallback(this.InvokeAdsCallback));
 		}
 	}
 	
