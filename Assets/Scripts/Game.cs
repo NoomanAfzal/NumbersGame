@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.UIElements;
 
 public class Game : MonoBehaviour
 {
     public static Game instane;
+    private Dot mergeResultDot; // Tracks the merge result dot during merging
     private void Awake()
     {
         instane = this;
@@ -360,9 +362,9 @@ private void HoldTouch(Vector2 pos)
                 }
 
                 // Only add the dot if it's not already in the chain
-                if (!alreadyInChain && 
-                    this.dots[num][num2].transform != this.linkLines[this.linkLines.Count - 1].linkDots[0] && 
-                    (this.dots[num][num2].numberLevel == this.nowLinkLv || 
+                if (!alreadyInChain &&
+                    this.dots[num][num2].transform != this.linkLines[this.linkLines.Count - 1].linkDots[0] &&
+                    (this.dots[num][num2].numberLevel == this.nowLinkLv ||
                      this.dots[num][num2].numberLevel == this.maxLinkLv))
                 {
                     Dot component = this.linkLines[this.linkLines.Count - 1].linkDots[0].GetComponent<Dot>();
@@ -389,6 +391,11 @@ private void HoldTouch(Vector2 pos)
                         this.linkLines.Add(line);
                         this.nowLinkLv = line.numberLevel;
                         this.maxLinkLv = this.nowLinkLv + 1;
+
+                        // Show the merge result during merging
+                       // ShowMergeResultDuringMerge(this.maxLinkLv);
+                       StartMergingTheDots();
+
                         AudioSystem.playEffect("p" + (this.linkLines.Count % 14 + 1).ToString());
                     }
                 }
@@ -434,6 +441,14 @@ private void HoldTouch(Vector2 pos)
                 long num3 = 0L;
                 this.holdTouchTim += 0.1f;
                 Dot component = this.linkLines[this.linkLines.Count - 1].linkDots[0].GetComponent<Dot>();
+                
+                // Clear the merge result dot
+                if (this.mergeResultDot != null)
+                {
+                    this.mergeResultDot.Clear(false);
+                    this.mergeResultDot = null;
+                }
+                
                 if (!this.isGuide)
                 {
                     this.undoDotTarget = new Game.SimpleDot(component.numberLevel, component.mPos);
@@ -471,6 +486,10 @@ private void HoldTouch(Vector2 pos)
                     this.nowMaxLv = component.numberLevel;
                     component.PlayTipScale(0f, false, 1.5f);
                     AudioSystem.playEffect("newlevel");
+                    
+                    
+                    Debug.Log("nomans new numbersssssss");
+                    // noman you can add the finish logic here 
                     if (this.nowMaxLv >= UIManager.selfInstance.VAinstance.adData.gameAdLevel)
                     {
                         UIManager.selfInstance.gamePanel.DelayNgs(0.36f);
@@ -521,6 +540,70 @@ private void HoldTouch(Vector2 pos)
         }
     }
 
+    public void StartMergingTheDots()
+    {
+        if (this.linkLines.Count > 1)
+        {
+            long num3 = 0L;
+            this.holdTouchTim += 0.1f;
+            Dot component = this.linkLines[this.linkLines.Count - 1].linkDots[0].GetComponent<Dot>();
+
+            num3 += component.number;
+            for (int i = 0; i < this.linkLines.Count - 1; i++)
+            {
+                Dot component2 = this.linkLines[i].linkDots[0].GetComponent<Dot>();
+                num3 += component2.number;
+            }
+
+            long num4 = 1L;
+            int num5 = 0;
+            for (;;)
+            {
+                num4 *= 2L;
+                if (num4 > num3)
+                {
+                    break;
+                }
+
+                num5++;
+            }
+
+            num5--;
+            // Show the merge result at the top of the screen
+            ShowMergeResult(num5);
+        }
+    }
+
+    /*private void ShowMergeResultDuringMerge(int numberLevel)
+    {
+        // Check if a merge result dot already exists
+        if (this.mergeResultDot != null)
+        {
+            // Update the existing merge result dot
+            this.mergeResultDot.UpdateNumLevel(numberLevel);
+        }
+        else
+        {
+            // Create a new merge result dot at the top of the screen
+            Vector2 topScreenPosition = new Vector2(0f, Screen.height / 2f - 100f); // Adjust Y position as needed
+            this.mergeResultDot = this.NewDot(numberLevel, 0, 0, topScreenPosition);
+
+            // Optionally, scale it up for emphasis
+            this.mergeResultDot.transform.localScale = Vector3.one * 1.5f;
+        }
+    }*/
+    private void ShowMergeResult(int numberLevel)
+    {
+        // Create a new dot at the top of the screen
+        Vector2 topScreenPosition = new Vector2(0f, 0f); // Adjust Y position as needed
+        Dot mergeResultDot = this.NewDot(numberLevel, 0, 0, topScreenPosition);
+
+        // Optionally, scale it up for emphasis
+        mergeResultDot.transform.localScale = Vector3.one * .5f;
+
+        // Destroy the merge result dot after a short delay
+        Destroy(mergeResultDot.gameObject, 1.5f); // Adjust delay as needed
+    }
     public void ClearTipStatus()
     {
         this.tipStatus = Game.TIPSTATUS.NONE;
@@ -733,6 +816,7 @@ private void HoldTouch(Vector2 pos)
             num4 = -num4;
             num5 = ((num4 <= 0) ? (this.cellSizeX - 1) : 0);
         }
+        Debug.Log("Check End...................................");
         base.Invoke("GameFinish", (float)num3 * 0.02f + 0.36f);
     }
 

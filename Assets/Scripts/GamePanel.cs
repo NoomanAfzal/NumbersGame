@@ -110,7 +110,7 @@ public class GamePanel : BasePanel
         {
                  //this.undoImg.color = new Color(0.5f, 0.5f, 0.5f, 1); // this.deactiveColor;
                  undoImg.sprite = undoDisable;
-             }
+        }
         else
         {
                  //this.undoImg.color = Color.white; // this.yellowActiveColor;
@@ -140,7 +140,6 @@ public class GamePanel : BasePanel
 	{
 		this.OnPause();
 	}
-
 	private void UpdateLevel()
 	{
 		this.guideHand.gameObject.SetActive(false);
